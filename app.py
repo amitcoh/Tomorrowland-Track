@@ -2,17 +2,16 @@ import sendgrid
 from sendgrid.helpers.mail import *
 import time
 import requests
+import os
 from datetime import datetime
 
-SENDGRID_API_KEY = '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'
 
-
-def send_mail(content):
-    sg = sendgrid.SendGridAPIClient(apikey=SENDGRID_API_KEY)
+def send_mail(cont):
+    sg = sendgrid.SendGridAPIClient(apikey=os.environ.get('SENDGRID_API_KEY'))
     from_email = Email("amitcoh@bynet.co.il")
     to_email = Email("cohen.amitc@gmail.com")
     subject = "Tomorrowland bracelet status changed!"
-    content = Content("text/plain", content)
+    content = Content("text/plain", cont)
     mail = Mail(from_email, subject, to_email, content)
     response = sg.client.mail.send.post(request_body=mail.get())
     return response
